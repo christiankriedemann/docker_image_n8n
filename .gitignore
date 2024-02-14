@@ -1,0 +1,95 @@
+# allgemeine ignorierte Dateien
+*.log
+*.tmp
+*.temp
+*.swp
+*~
+.DS_Store
+Thumbs.db
+*.bak
+*.orig
+
+# versteckte Systemdateien
+.directory
+.Trashes
+
+# build- und Entwicklungsumgebungen
+.vscode/
+.idea/
+*.code-workspace
+*.sublime*
+*.sw?
+
+# Abhängigkeiten
+node_modules/
+jspm_packages/
+bower_components/
+/vendor/
+
+# Paket- und Lock-Dateien
+package-lock.json
+yarn.lock
+composer.lock
+Gopkg.lock
+Pipfile.lock
+
+# persönliche ignorierte Dateien
+.gitignore_global
+
+# Build-Ausgaben
+dist/
+tmp/
+out/
+build/
+*.out
+
+# Log-Dateien
+logs/
+*.log
+
+# Docker ignorierte Dateien
+.Dockerignore
+**/.env
+**/.env.*
+*.tar
+*.gz
+.docker/
+.dockerignore
+
+# Docker Image und Container Build-Artefakte
+**/Dockerfile.*.bak
+**/Dockerfile.*.tmp
+docker-compose*.yml.*
+docker-compose.override.yml
+
+# Zertifikate
+*.cert
+*.key
+*.pem
+
+# Shell-Skript Artefakte
+*.retry
+
+# Shell-specifische ignorierte Dateien
+.history
+.sh_history
+.bash_history
+.zsh_history
+.fish_history
+
+# Git-Tools und generierte Metadaten
+.git/
+.gitmodules
+.gitattributes
+.gitkeep
+
+# Sicherheits- und Credentials-Dateien
+*.p12
+*.pfx
+*.asc
+*.encryption
+.secret
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
