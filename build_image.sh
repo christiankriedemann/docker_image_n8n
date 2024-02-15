@@ -38,6 +38,9 @@ echo "Die Version wurde auf $NEW_VERSION aktualisiert."
     exit 1
 fi
 
+# Docker Login
+docker login
+
 # Build das Docker Image
 docker buildx build --platform linux/amd64,linux/arm64 -t ${DOCKER_USERNAME}/${IMAGE_NAME}:${NEW_VERSION} -t ${DOCKER_USERNAME}/${IMAGE_NAME}:latest --push .
 if [ $? -ne 0 ]; then
