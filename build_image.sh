@@ -1,5 +1,22 @@
 #!/bin/zsh
 
+# Docker Desktop muss laufen, damit der Build erstellt werden kann
+
+# Check if Docker is not running
+if ! docker info &> /dev/null; then
+    echo "Docker is not running. Starting Docker..."
+    open -a Docker
+fi
+
+# Wait until Docker daemon is ready
+while ! docker info &> /dev/null; do
+    echo "Waiting for Docker to start..."
+    sleep 1
+done
+
+# Docker is running
+echo "Docker is now ready to use."
+
 # Variablen setzen
 source ~/.docker/.env
 IMAGE_NAME="n8n_python_mjml"
