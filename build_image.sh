@@ -87,11 +87,12 @@ if [ $? -ne 0 ]; then
 else
     echo "Image wurde erfolgreich gebaut."
     # Lösche das lokale Image
-    docker rmi ${DOCKER_USERNAME}/${IMAGE_NAME}:${NEW_VERSION}
-    docker rmi ${DOCKER_USERNAME}/${IMAGE_NAME}:latest
-    # Committe die Versionsänderung
+    # docker rmi ${DOCKER_USERNAME}/${IMAGE_NAME}:${NEW_VERSION}
+    # docker rmi ${DOCKER_USERNAME}/${IMAGE_NAME}:latest
+    # Git add, commit und push für die Versionsänderung
     git add .
     git commit -m "Version $NEW_VERSION"
+    git push
 fi
 
 echo "Alle Operationen erfolgreich ausgeführt."
