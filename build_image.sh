@@ -1,7 +1,8 @@
 #!/bin/zsh
 
+#
 # Docker Desktop muss laufen, damit der Build erstellt werden kann
-
+#
 # Check if Docker is not running
 if ! docker info &> /dev/null; then
     echo "Docker is not running. Starting Docker..."
@@ -38,15 +39,35 @@ fi
 CURRENT_VERSION=$(<$VERSION_FILE)
 
 # Zeige die aktuelle Version an
-echo "Aktuelle Version: $CURRENT_VERSION"
+echo "Letzte erstellte Version: $CURRENT_VERSION"
 
-# Frage nach der neuen Version
-echo "Bitte geben Sie die neue Version ein: "
-read NEW_VERSION
+#
+# Suche nach der aktuellen n8n Version
+#
+# Senden einer Anfrage, um die Location-Header zu bekommen
+location_header=$(curl -I -sS https://github.com/n8n-io/n8n/releases/latest | grep -i location)
+
+# Extrahieren Sie den Teil der URL nach dem "@"-Symbol
+n8n_version=$(echo $location_header | grep -o 'n8n@[^"]*' | cut -d'@' -f 2 | tr -d '\r')
+
+# Ausgabe der Versionsnummer
+echo "Die aktuelle n8n Version ist: $n8n_version"
+
+# Überprüfen Sie, ob die Versionsnummer dem Schema x.y.z entspricht
+echo "Überprüfe, ob die n8n Versionsnummer $n8n_version dem Schema x.y.z entspricht..."
+
+if [[ $n8n_version =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "Die gefundene Versionsnummer ist korrekt: $n8n_version"
+    NEW_VERSION=$n8n_version
+else
+    echo "Die gefundene Versionsnummer entspricht nicht dem Schema 'x.y.z'"
+    # Frage nach der neuen Version
+    echo "Bitte geben Sie die neue Version ein: "
+    read NEW_VERSION
+fi
 
 # Speichere die neue Version in die Datei
 echo $NEW_VERSION > $VERSION_FILE
-
 echo "Die Version wurde auf $NEW_VERSION aktualisiert."
 
 # Stelle sicher, dass das Dockerfile im aktuellen Verzeichnis existiert
@@ -63,6 +84,10 @@ docker buildx build --platform linux/amd64,linux/arm64 -t ${DOCKER_USERNAME}/${I
 if [ $? -ne 0 ]; then
     echo "Image konnte nicht gebaut werden."
     exit 1
+else
+    echo "Image wurde erfolgreich gebaut."
+    git add .
+    git commit -m "Version $NEW_VERSION"
 fi
 
 echo "Alle Operationen erfolgreich ausgeführt."
