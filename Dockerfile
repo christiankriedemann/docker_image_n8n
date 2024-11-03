@@ -24,6 +24,9 @@ RUN rm -rf /var/cache/apk/*
 # Installiere mjml über npm
 RUN npm install -g mjml
 
+# Installiere das 'ws'-Modul über npm
+RUN npm install ws
+
 # Setze das Arbeitsverzeichnis
 WORKDIR /home/automation
 
